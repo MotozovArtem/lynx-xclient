@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+    <property name="log_dir" value="log"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %date{"HH:mm:ss.SSS 'UTC'", UTC} %-5level [%thread] %logger{5}: %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_dir}/trace.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %date{"HH:mm:ss.SSS 'UTC'", UTC} %-5level [%thread] %logger{5}: %msg%n
+            </Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${log_dir}/trace_%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>8</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>8MB</maxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <logger name="org.lynx" level="debug"/>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
